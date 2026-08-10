@@ -5,7 +5,7 @@ export function middleware(req) {
 
   if (url.pathname.startsWith('/view')) {
     const userEnv = process.env.ADMIN_USER;
-    const passEnv = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
+    const passEnv = process.env.ADMIN_PASSWORD;
 
     // Estetään pääsy, jos muuttujia ei ole asetettu.
     // Geneerinen 500-virhe ilman tarkkoja syitä, jottei vuodeta palvelimen konfiguraatiotietoja hyökkääjille.
