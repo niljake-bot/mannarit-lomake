@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres';
+import { neon } from '@neondatabase/serverless';
 import '../globals.css';
 
 // Pakotetaan dynaamiseksi, jotta sivu renderöidään aina uudestaan palvelimella
@@ -7,8 +7,14 @@ export const dynamic = 'force-dynamic';
 export default async function ViewPage() {
   let rows = [];
   try {
-    const result = await sql`SELECT * FROM registrations ORDER BY created_at DESC;`;
-    rows = result.rows;
+    const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+    if (connectionString) {
+      const sql = neon(connectionString);
+      // Oletuksena neon() palauttaa suoraan arrayn objekteja, ei { rows: [...] }
+      rows = await sql`SELECT * FROM registrations ORDER BY created_at DESC;`;
+    } else {
+      console.error('DATABASE_URL is missing!');
+    }
   } catch (e) {
     console.error("View error:", e);
   }

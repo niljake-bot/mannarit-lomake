@@ -1,4 +1,4 @@
-import { sql } from '@vercel/postgres';
+import { neon } from '@neondatabase/serverless';
 import { NextResponse } from 'next/server';
 
 const MAX_NAME_LEN = 255;
@@ -21,6 +21,14 @@ export async function POST(request) {
     if (message !== undefined && (typeof message !== 'string' || message.length > MAX_MESSAGE_LEN)) {
       return NextResponse.json({ error: 'Viesti liian pitkä' }, { status: 400 });
     }
+
+    const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+    if (!connectionString) {
+      console.error('DATABASE_URL is missing!');
+      return NextResponse.json({ error: 'Database misconfigured' }, { status: 500 });
+    }
+
+    const sql = neon(connectionString);
 
     // Varmistetaan että taulu on olemassa
     await sql`
