@@ -7,16 +7,10 @@ export function middleware(req) {
     const userEnv = process.env.ADMIN_USER;
     const passEnv = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
 
-    // Estetään pääsy välittömästi, jos muuttujia ei ole asetettu kunnolla.
-    // Ei käytetä mitään fallback-arvoja tai tyhjiä merkkijonoja.
-    if (!userEnv || userEnv.trim() === '') {
-      return new NextResponse('Server configuration error: ADMIN_USER is not set in environment variables.', {
-        status: 500,
-      });
-    }
-
-    if (!passEnv || passEnv.trim() === '') {
-      return new NextResponse('Server configuration error: ADMIN_PASSWORD is not set in environment variables.', {
+    // Estetään pääsy, jos muuttujia ei ole asetettu.
+    // Geneerinen 500-virhe ilman tarkkoja syitä, jottei vuodeta palvelimen konfiguraatiotietoja hyökkääjille.
+    if (!userEnv || userEnv.trim() === '' || !passEnv || passEnv.trim() === '') {
+      return new NextResponse('Internal Server Error', {
         status: 500,
       });
     }
