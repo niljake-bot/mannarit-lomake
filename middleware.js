@@ -4,16 +4,25 @@ export function middleware(req) {
   const url = req.nextUrl;
 
   if (url.pathname.startsWith('/view')) {
-    // Varmistetaan ensin, että ympäristömuuttujat on ylipäätään asetettu
-    const expectedUser = (process.env.ADMIN_USER || 'admin').trim();
-    const expectedPassword = (process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET || '').trim();
+    const userEnv = process.env.ADMIN_USER;
+    const passEnv = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
 
-    // Jos salasanaa ei ole konfiguroitu, estetään pääsy kokonaan tietoturvasyistä
-    if (!expectedPassword) {
-      return new NextResponse('Server configuration error: ADMIN_PASSWORD is not set.', {
+    // Estetään pääsy välittömästi, jos muuttujia ei ole asetettu kunnolla.
+    // Ei käytetä mitään fallback-arvoja tai tyhjiä merkkijonoja.
+    if (!userEnv || userEnv.trim() === '') {
+      return new NextResponse('Server configuration error: ADMIN_USER is not set in environment variables.', {
         status: 500,
       });
     }
+
+    if (!passEnv || passEnv.trim() === '') {
+      return new NextResponse('Server configuration error: ADMIN_PASSWORD is not set in environment variables.', {
+        status: 500,
+      });
+    }
+
+    const expectedUser = userEnv.trim();
+    const expectedPassword = passEnv.trim();
 
     const basicAuth = req.headers.get('authorization');
     if (basicAuth) {
