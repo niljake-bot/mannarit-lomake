@@ -1,10 +1,10 @@
-import http.server
-import socketserver
+from flask import Flask, request, jsonify, render_template_string
 import sqlite3
-import json
 import os
 
-DB_FILE = 'mannarit.db'
+app = Flask(__name__)
+# Käytetään absoluuttista polkua tietokannalle, jotta se toimii varmasti PythonAnywheressä riippumatta työhakemistosta
+DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mannarit.db')
 
 def init_db():
     conn = sqlite3.connect(DB_FILE)
@@ -13,6 +13,8 @@ def init_db():
                  (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, allergies TEXT)''')
     conn.commit()
     conn.close()
+
+init_db()
 
 HTML_PAGE = """
 <!DOCTYPE html>
@@ -87,62 +89,41 @@ HTML_PAGE = """
 </html>
 """
 
-class Handler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == '/':
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html; charset=utf-8')
-            self.end_headers()
-            self.wfile.write(HTML_PAGE.encode('utf-8'))
-        elif self.path == '/view':
-            conn = sqlite3.connect(DB_FILE)
-            c = conn.cursor()
-            c.execute('SELECT * FROM registrations')
-            rows = c.fetchall()
-            conn.close()
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html; charset=utf-8')
-            self.end_headers()
-            
-            style = "body { font-family: sans-serif; padding: 20px; } table { border-collapse: collapse; width: 100%; max-width: 800px; } th, td { border: 1px solid #ddd; padding: 8px; text-align: left; } th { background-color: #f2f2f2; }"
-            resp = f"<html><head><style>{style}</style></head><body>"
-            resp += "<h2>Ilmoittautuneet (Admin-näkymä)</h2><table><tr><th>ID</th><th>Nimi</th><th>Sähköposti</th><th>Allergiat</th></tr>"
-            for r in rows:
-                resp += f"<tr><td>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>"
-            resp += "</table></body></html>"
-            self.wfile.write(resp.encode('utf-8'))
-        else:
-            self.send_response(404)
-            self.end_headers()
+@app.route('/')
+def index():
+    return render_template_string(HTML_PAGE)
 
-    def do_POST(self):
-        if self.path == '/register':
-            content_length = int(self.headers['Content-Length'])
-            post_data = self.rfile.read(content_length)
-            data = json.loads(post_data.decode('utf-8'))
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    if not data:
+        return jsonify({'status': 'error'}), 400
 
-            conn = sqlite3.connect(DB_FILE)
-            c = conn.cursor()
-            c.execute('INSERT INTO registrations (name, email, allergies) VALUES (?, ?, ?)',
-                      (data.get('name'), data.get('email'), data.get('allergies')))
-            conn.commit()
-            conn.close()
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute('INSERT INTO registrations (name, email, allergies) VALUES (?, ?, ?)',
+              (data.get('name'), data.get('email'), data.get('allergies')))
+    conn.commit()
+    conn.close()
 
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps({'status': 'ok'}).encode('utf-8'))
-        else:
-            self.send_response(404)
-            self.end_headers()
+    return jsonify({'status': 'ok'})
 
-    # Suppress console logging for clean stdout
-    def log_message(self, format, *args):
-        pass
+@app.route('/view')
+def view():
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+    c.execute('SELECT * FROM registrations')
+    rows = c.fetchall()
+    conn.close()
+
+    style = "body { font-family: sans-serif; padding: 20px; } table { border-collapse: collapse; width: 100%; max-width: 800px; } th, td { border: 1px solid #ddd; padding: 8px; text-align: left; } th { background-color: #f2f2f2; }"
+    resp = f"<html><head><style>{style}</style></head><body>"
+    resp += "<h2>Ilmoittautuneet (Admin-näkymä)</h2><table><tr><th>ID</th><th>Nimi</th><th>Sähköposti</th><th>Allergiat</th></tr>"
+    for r in rows:
+        resp += f"<tr><td>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>"
+    resp += "</table></body></html>"
+
+    return resp
 
 if __name__ == '__main__':
-    init_db()
-    port = 8080
-    with socketserver.TCPServer(("", port), Handler) as httpd:
-        print(f"Server starting on port {port}")
-        httpd.serve_forever()
+    app.run(debug=True, port=8080)
