@@ -7,14 +7,25 @@ export function middleware(req) {
   if (url.pathname.startsWith('/view')) {
     if (basicAuth) {
       const authValue = basicAuth.split(' ')[1];
-      const [user, pwd] = atob(authValue).split(':');
+      
+      try {
+        // Decode base64
+        const decoded = atob(authValue);
+        const index = decoded.indexOf(':');
+        
+        if (index !== -1) {
+          const user = decoded.slice(0, index);
+          const pwd = decoded.slice(index + 1);
 
-      const expectedUser = process.env.ADMIN_USER || 'admin';
-      // Fallback to ADMIN_SECRET if ADMIN_PASSWORD is not set for backwards compatibility
-      const expectedPassword = process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET;
+          const expectedUser = (process.env.ADMIN_USER || 'admin').trim();
+          const expectedPassword = (process.env.ADMIN_PASSWORD || process.env.ADMIN_SECRET || '').trim();
 
-      if (expectedPassword && user === expectedUser && pwd === expectedPassword) {
-        return NextResponse.next();
+          if (expectedPassword && user === expectedUser && pwd === expectedPassword) {
+            return NextResponse.next();
+          }
+        }
+      } catch (e) {
+        console.error('Basic Auth decode error:', e);
       }
     }
 
