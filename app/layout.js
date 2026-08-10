@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Mannarit 2024 Ilmoittautuminen',
+  title: 'Mannarit 2026 Ilmoittautuminen',
 };
 
 export default function RootLayout({ children }) {
