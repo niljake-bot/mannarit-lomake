@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <div style={styles.wrapper}>
       <div style={styles.container}>
-        <h1 style={styles.h1}>Kesän Mannarit</h1>
+        <h1 style={styles.h1}>Kesä 2026 Mannarit (24.8.)</h1>
         <form onSubmit={onSubmit}>
           <label style={styles.label}>Nimi</label>
           <input type="text" name="name" required placeholder="Etunimi Sukunimi" style={styles.input} />
