@@ -1,26 +1,15 @@
 import { sql } from '@vercel/postgres';
-import { headers } from 'next/headers';
 import '../globals.css';
 
 // Pakotetaan dynaamiseksi, jotta sivu renderöidään aina uudestaan palvelimella
 export const dynamic = 'force-dynamic';
 
-export default async function ViewPage({ searchParams }) {
-  const secret = process.env.ADMIN_SECRET;
-  if (!secret || searchParams?.secret !== secret) {
-    return (
-      <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-        <h2>403 – Ei käyttöoikeutta</h2>
-      </div>
-    );
-  }
-
+export default async function ViewPage() {
   let rows = [];
   try {
     const result = await sql`SELECT * FROM registrations ORDER BY created_at DESC;`;
     rows = result.rows;
   } catch (e) {
-    // Jos taulua ei ole vielä luotu (yhtään ilmoittautumista ei ole tullut), tämä nappaa virheen.
     console.error("View error:", e);
   }
 
