@@ -1,33 +1,23 @@
-# Mannarit Lomake
+# Mannarit Lomake (Vercel + Postgres)
 
-Yhden sivun ilmoittautumislomake Kesän Mannarit -tapahtumaan. 
-Käyttää Flask-kehystä ja SQLite-tietokantaa. Yhteensopiva ilman kikkailuja PythonAnywhere-palvelun kanssa.
+Ilmoittautumislomake Kesän Mannarit -tapahtumaan. 
+Rakennettu Next.js:llä (App Router) ja käyttää Vercel Postgres -tietokantaa. Tämä ratkaisu on ihanteellinen, kun haluat hostata sovelluksen ilmaiseksi Vercelissä ja kytkeä siihen oman alidomainin (esim. `mannarit.oma-domain.fi`).
 
-## Paikallinen testaus
+## Käyttöönotto Vercelissä
 
-```bash
-pip install -r requirements.txt
-python3 app.py
-```
-Sivu aukeaa osoitteessa `http://localhost:8080/`. Admin-näkymä on osoitteessa `http://localhost:8080/view`.
+1. Mene osoitteeseen [Vercel.com](https://vercel.com) ja kirjaudu sisään.
+2. Paina **Add New...** -> **Project**.
+3. Valitse tämä GitHub-repositorio (`mannarit-lomake`) ja paina **Import**.
+4. Jätä asetukset oletuksiksi ja paina **Deploy**. (Ensimmäinen deploy menee läpi, mutta tietokantaa ei ole vielä kytketty, joten sovellus antaa virheen ilmoittautuessa).
+5. Siirry projektin Dashboardiin ja valitse ylävalikosta **Storage**.
+6. Paina **Create Database** -> valitse **Postgres** -> hyväksy ehdot (Region: esim. Frankfurt).
+7. Kun tietokanta on luotu, liitä se tähän projektiin (Vercel kysyy lupaa). Tämä lisää automaattisesti tarvittavat `POSTGRES_*` ympäristömuuttujat projektillesi.
+8. Mene projektin **Deployments**-välilehdelle, paina kolmea pistettä uusimman (tai aiemman) deployn kohdalla ja valitse **Redeploy**.
+9. Valmista! Kun sovellus käynnistyy ja ensimmäinen henkilö ilmoittautuu, tietokantaan luodaan automaattisesti tarvittava `registrations`-taulu.
 
-## Käyttöönotto (PythonAnywhere)
+## Oman Domainin kytkeminen
+Vercelin asetuksista (**Settings** -> **Domains**) voit helposti lisätä oman verkkotunnuksesi tai alidomainin. Vercel näyttää tarvittavat DNS-tietueet (esim. CNAME tai A-tietue), jotka sinun pitää lisätä domainisi hallintapaneelissa (esim. Louhi, Zoner, Namecheap). Vercel hoitaa HTTPS-sertifikaatin ilmaiseksi ja automaattisesti.
 
-1. Luo ilmainen tili PythonAnywhereen.
-2. Avaa Bash-konsoli ja kloonaa repositorio:
-   `git clone https://github.com/niljakebot/mannarit-lomake.git`
-3. Luo Web-välilehdeltä uusi web app (valitse manuaalinen konfiguraatio ja Python 3.10+).
-4. Asenna Flask konsolissa:
-   `pip3 install --user Flask`
-5. Muokkaa WSGI-konfiguraatiotiedostoa (Web-välilehdeltä):
-   ```python
-   import sys
-   import os
-
-   path = '/home/OMAKÄYTTÄJÄTUNNUS/mannarit-lomake'
-   if path not in sys.path:
-       sys.path.append(path)
-
-   from app import app as application
-   ```
-6. Paina Reload-nappia ja sovellus on verkossa!
+## Ominaisuudet
+- **Lomake:** `/`
+- **Admin-näkymä:** `/view`
