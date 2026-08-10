@@ -48,8 +48,8 @@ export default function Home() {
           <label style={styles.label}>Sähköposti</label>
           <input type="email" name="email" required placeholder="nimi@esimerkki.fi" style={styles.input} />
           
-          <label style={styles.label}>Erityisruokavaliot / Allergiat</label>
-          <textarea name="allergies" rows="3" placeholder="Ei allergioita..." style={styles.input}></textarea>
+          <label style={styles.label}>Mannariterveiset</label>
+          <textarea name="message" rows="3" placeholder="Kirjoita terveisiä..." style={styles.input}></textarea>
           
           <button type="submit" disabled={status === 'loading'} style={styles.button}>
             {status === 'loading' ? 'Tallennetaan...' : 'Ilmoittaudu mukaan'}

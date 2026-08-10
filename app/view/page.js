@@ -1,10 +1,20 @@
 import { sql } from '@vercel/postgres';
+import { headers } from 'next/headers';
 import '../globals.css';
 
 // Pakotetaan dynaamiseksi, jotta sivu renderöidään aina uudestaan palvelimella
-export const dynamic = 'force-dynamic'; 
+export const dynamic = 'force-dynamic';
 
-export default async function ViewPage() {
+export default async function ViewPage({ searchParams }) {
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret || searchParams?.secret !== secret) {
+    return (
+      <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+        <h2>403 – Ei käyttöoikeutta</h2>
+      </div>
+    );
+  }
+
   let rows = [];
   try {
     const result = await sql`SELECT * FROM registrations ORDER BY created_at DESC;`;
@@ -23,7 +33,7 @@ export default async function ViewPage() {
             <th style={thStyle}>ID</th>
             <th style={thStyle}>Nimi</th>
             <th style={thStyle}>Sähköposti</th>
-            <th style={thStyle}>Allergiat</th>
+            <th style={thStyle}>Mannariterveiset</th>
             <th style={thStyle}>Aika</th>
           </tr>
         </thead>
@@ -33,7 +43,7 @@ export default async function ViewPage() {
               <td style={tdStyle}>{r.id}</td>
               <td style={tdStyle}>{r.name}</td>
               <td style={tdStyle}>{r.email}</td>
-              <td style={tdStyle}>{r.allergies}</td>
+              <td style={tdStyle}>{r.message}</td>
               <td style={tdStyle}>{r.created_at ? new Date(r.created_at).toLocaleString('fi-FI') : ''}</td>
             </tr>
           ))}
