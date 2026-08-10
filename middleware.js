@@ -7,8 +7,6 @@ export function middleware(req) {
     const userEnv = process.env.ADMIN_USER;
     const passEnv = process.env.ADMIN_PASSWORD;
 
-    // Estetään pääsy, jos muuttujia ei ole asetettu.
-    // Geneerinen 500-virhe ilman tarkkoja syitä, jottei vuodeta palvelimen konfiguraatiotietoja hyökkääjille.
     if (!userEnv || userEnv.trim() === '' || !passEnv || passEnv.trim() === '') {
       return new NextResponse('Internal Server Error', {
         status: 500,
@@ -18,8 +16,10 @@ export function middleware(req) {
     const expectedUser = userEnv.trim();
     const expectedPassword = passEnv.trim();
 
+    // Next.js (ja standardi Fetch API Headers) tallentaa otsakkeet aina pienellä alkukirjaimella.
     const basicAuth = req.headers.get('authorization');
-    if (basicAuth) {
+    
+    if (basicAuth && basicAuth.startsWith('Basic ')) {
       const authValue = basicAuth.split(' ')[1];
       
       try {
