@@ -85,7 +85,7 @@ export default function Home() {
             />
           </div>
           <div style={{ marginTop: '25px', textAlign: 'center' }}>
-            <a href="https://t.me/+esimerkki_linkki" target="_blank" rel="noopener noreferrer" style={styles.telegramButton}>
+            <a href="https://t.me/+Nm3aFR1smAtkZmM0" target="_blank" rel="noopener noreferrer" style={styles.telegramButton}>
               Liity Telegram-ryhmään
             </a>
           </div>

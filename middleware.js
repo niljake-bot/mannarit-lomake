@@ -20,8 +20,8 @@ export function middleware(req) {
     const basicAuth = req.headers.get('authorization');
 
     // Auth scheme is case-insensitive; tolerate extra spaces.
-    if (basicAuth && /^basic\s+/i.test(basicAuth)) {
-      const authValue = basicAuth.replace(/^basic\s+/i, '').trim();
+    if (basicAuth && basicAuth.toLowerCase().startsWith('basic ')) {
+      const authValue = basicAuth.substring(6).trim();
       
       try {
         const binary = atob(authValue);
@@ -33,7 +33,9 @@ export function middleware(req) {
           const pwd = decoded.slice(index + 1);
 
           if (user === expectedUser && pwd === expectedPassword) {
-            return NextResponse.next();
+            const response = NextResponse.next();
+            response.headers.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+            return response;
           }
         }
       } catch (e) {
