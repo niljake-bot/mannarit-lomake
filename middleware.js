@@ -34,7 +34,7 @@ export function middleware(req) {
 
           if (user === expectedUser && pwd === expectedPassword) {
             const response = NextResponse.next();
-            response.headers.set('Cache-Control', 'no-store, max-age=0');
+            response.headers.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
             return response;
           }
         }
@@ -47,7 +47,7 @@ export function middleware(req) {
       status: 401,
       headers: {
         'WWW-Authenticate': 'Basic realm="Secure Area"',
-        'Cache-Control': 'no-store, max-age=0',
+        'Cache-Control': 'private, no-store, no-cache, must-revalidate',
       },
     });
   }
