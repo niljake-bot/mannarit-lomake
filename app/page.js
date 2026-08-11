@@ -33,9 +33,12 @@ export default function Home() {
         <div style={styles.container}>
           <div style={styles.success}>Ilmoittautuminen tallennettu!<br/>Nähdään mannareilla 24.8.2026!</div>
           <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            <img 
-              src="/success.gif" 
-              alt="Success GIF" 
+            <video 
+              src="/success.mp4" 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
               style={{ maxWidth: '100%', borderRadius: '8px' }} 
             />
           </div>
