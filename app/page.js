@@ -100,7 +100,7 @@ export default function Home() {
         <h1 style={styles.h1}>Kesä 2026 Mannarit (24.8.)</h1>
         <form onSubmit={onSubmit}>
           <label style={styles.label}>Nimi</label>
-          <input type="text" name="name" required placeholder="Etunimi Sukunimi" style={styles.input} />
+          <input type="text" name="name" required placeholder="Nimi" style={styles.input} />
           
           <label style={styles.label}>Mannariterveiset</label>
           <textarea name="message" rows="3" placeholder="Kirjoita terveisiä..." style={styles.input}></textarea>
