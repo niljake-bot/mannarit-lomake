@@ -45,6 +45,7 @@ export function middleware(req) {
       status: 401,
       headers: {
         'WWW-Authenticate': 'Basic realm="Secure Area"',
+        'Cache-Control': 'no-store, max-age=0',
       },
     });
   }
@@ -53,5 +54,5 @@ export function middleware(req) {
 }
 
 export const config = {
-  matcher: ['/view/:path*'],
+  matcher: ['/view', '/view/:path*'],
 };
