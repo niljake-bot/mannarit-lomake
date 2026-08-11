@@ -3,6 +3,8 @@ import '../globals.css';
 
 // Pakotetaan dynaamiseksi, jotta sivu renderöidään aina uudestaan palvelimella
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
 
 export default async function ViewPage() {
   let rows = [];
