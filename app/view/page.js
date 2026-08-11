@@ -29,7 +29,6 @@ export default async function ViewPage() {
           <tr>
             <th style={thStyle}>ID</th>
             <th style={thStyle}>Nimi</th>
-            <th style={thStyle}>Sähköposti</th>
             <th style={thStyle}>Mannariterveiset</th>
             <th style={thStyle}>Aika</th>
           </tr>
@@ -39,13 +38,12 @@ export default async function ViewPage() {
             <tr key={r.id}>
               <td style={tdStyle}>{r.id}</td>
               <td style={tdStyle}>{r.name}</td>
-              <td style={tdStyle}>{r.email}</td>
               <td style={tdStyle}>{r.message}</td>
               <td style={tdStyle}>{r.created_at ? new Date(r.created_at).toLocaleString('fi-FI') : ''}</td>
             </tr>
           ))}
           {rows.length === 0 && (
-            <tr><td colSpan="5" style={{...tdStyle, textAlign: 'center'}}>Ei ilmoittautumisia vielä.</td></tr>
+            <tr><td colSpan="4" style={{...tdStyle, textAlign: 'center'}}>Ei ilmoittautumisia vielä.</td></tr>
           )}
         </tbody>
       </table>

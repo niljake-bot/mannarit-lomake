@@ -84,6 +84,11 @@ export default function Home() {
               style={{ maxWidth: '100%', borderRadius: '8px' }} 
             />
           </div>
+          <div style={{ marginTop: '25px', textAlign: 'center' }}>
+            <a href="https://t.me/+esimerkki_linkki" target="_blank" rel="noopener noreferrer" style={styles.telegramButton}>
+              Liity Telegram-ryhmään
+            </a>
+          </div>
         </div>
       </div>
     );
@@ -96,9 +101,6 @@ export default function Home() {
         <form onSubmit={onSubmit}>
           <label style={styles.label}>Nimi</label>
           <input type="text" name="name" required placeholder="Etunimi Sukunimi" style={styles.input} />
-          
-          <label style={styles.label}>Sähköposti</label>
-          <input type="email" name="email" required placeholder="nimi@esimerkki.fi" style={styles.input} />
           
           <label style={styles.label}>Mannariterveiset</label>
           <textarea name="message" rows="3" placeholder="Kirjoita terveisiä..." style={styles.input}></textarea>
@@ -146,6 +148,8 @@ const styles = {
   label: { display: 'block', marginTop: '15px', color: '#444', fontWeight: '500', fontSize: '14px' },
   input: { width: '100%', padding: '12px', marginTop: '8px', border: '1px solid #ddd', borderRadius: '6px', boxSizing: 'border-box', fontFamily: 'inherit' },
   button: { marginTop: '25px', width: '100%', padding: '14px', background: '#0066cc', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' },
+  button: { marginTop: '25px', width: '100%', padding: '14px', background: '#0066cc', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' },
+  telegramButton: { display: 'inline-block', width: '100%', padding: '14px', background: '#24A1DE', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', textDecoration: 'none', boxSizing: 'border-box' },
   success: { color: '#155724', backgroundColor: '#d4edda', border: '1px solid #c3e6cb', padding: '15px', borderRadius: '6px', textAlign: 'center', fontWeight: '500' },
   memeButton: { marginTop: '15px', width: '100%', padding: '12px', background: '#ff9800', color: 'white', border: 'none', borderRadius: '6px', fontSize: '15px', fontWeight: 'bold', cursor: 'pointer' },
   modalOverlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, padding: '20px' },
