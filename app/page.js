@@ -85,7 +85,7 @@ export default function Home() {
             />
           </div>
           <div style={{ marginTop: '25px', textAlign: 'center' }}>
-            <a href="https://t.me/+Nm3aFR1smAtkZmM0" target="_blank" rel="noopener noreferrer" style={styles.telegramButton}>
+            <a href="/api/telegram" target="_blank" rel="noopener noreferrer" style={styles.telegramButton}>
               Liity Telegram-ryhmään
             </a>
           </div>
@@ -147,7 +147,6 @@ const styles = {
   h1: { color: '#1a1a1a', fontSize: '26px', textAlign: 'center', marginBottom: '20px', marginTop: 0 },
   label: { display: 'block', marginTop: '15px', color: '#444', fontWeight: '500', fontSize: '14px' },
   input: { width: '100%', padding: '12px', marginTop: '8px', border: '1px solid #ddd', borderRadius: '6px', boxSizing: 'border-box', fontFamily: 'inherit' },
-  button: { marginTop: '25px', width: '100%', padding: '14px', background: '#0066cc', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' },
   button: { marginTop: '25px', width: '100%', padding: '14px', background: '#0066cc', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' },
   telegramButton: { display: 'inline-block', width: '100%', padding: '14px', background: '#24A1DE', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', textDecoration: 'none', boxSizing: 'border-box' },
   success: { color: '#155724', backgroundColor: '#d4edda', border: '1px solid #c3e6cb', padding: '15px', borderRadius: '6px', textAlign: 'center', fontWeight: '500' },
