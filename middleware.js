@@ -18,12 +18,14 @@ export function middleware(req) {
 
     // Next.js (ja standardi Fetch API Headers) tallentaa otsakkeet aina pienellä alkukirjaimella.
     const basicAuth = req.headers.get('authorization');
-    
-    if (basicAuth && basicAuth.startsWith('Basic ')) {
-      const authValue = basicAuth.split(' ')[1];
+
+    // Auth scheme is case-insensitive; tolerate extra spaces.
+    if (basicAuth && /^basic\s+/i.test(basicAuth)) {
+      const authValue = basicAuth.replace(/^basic\s+/i, '').trim();
       
       try {
-        const decoded = atob(authValue);
+        const binary = atob(authValue);
+        const decoded = new TextDecoder().decode(Uint8Array.from(binary, c => c.charCodeAt(0)));
         const index = decoded.indexOf(':');
         
         if (index !== -1) {
