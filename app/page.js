@@ -33,13 +33,11 @@ export default function Home() {
         <div style={styles.container}>
           <div style={styles.success}>Ilmoittautuminen tallennettu!<br/>Nähdään mannareilla 24.8.2026!</div>
           <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            <iframe 
-              src="https://giphy.com/embed/TLhEKSMEMhkqMSCctl" 
-              width="100%" 
-              height="280" 
-              style={{ border: 0, borderRadius: '8px' }}
-              allowFullScreen
-            ></iframe>
+            <img 
+              src="/success.gif" 
+              alt="Success GIF" 
+              style={{ maxWidth: '100%', borderRadius: '8px' }} 
+            />
           </div>
         </div>
       </div>
