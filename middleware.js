@@ -33,9 +33,7 @@ export function middleware(req) {
           const pwd = decoded.slice(index + 1);
 
           if (user === expectedUser && pwd === expectedPassword) {
-            const response = NextResponse.next();
-            response.headers.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
-            return response;
+            return NextResponse.next();
           }
         }
       } catch (e) {
