@@ -31,7 +31,7 @@ export default function Home() {
     return (
       <div style={styles.wrapper}>
         <div style={styles.container}>
-          <div style={styles.success}>Ilmoittautuminen tallennettu!<br/>Nähdään mannareilla!</div>
+          <div style={styles.success}>Ilmoittautuminen tallennettu!<br/>Nähdään mannareilla 24.8.2026!</div>
           <div style={{ marginTop: '20px', textAlign: 'center' }}>
             <img 
               src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWhuMW1vNW94ZW94N2kzamQ1ZDljYnMyMGZtZjdnMGw0bmk1bDA3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TLhEKSMEMhkqMSCctl/giphy.gif" 
