@@ -89,6 +89,9 @@ export default function Home() {
               Liity Telegram-ryhmään
             </a>
           </div>
+          <div style={{ marginTop: '20px', textAlign: 'center', fontSize: '12px' }}>
+            <a href="/tietosuoja" style={{ color: '#666', textDecoration: 'underline' }}>Tietosuojaseloste (GDPR)</a>
+          </div>
         </div>
       </div>
     );
@@ -115,6 +118,10 @@ export default function Home() {
         <button type="button" onClick={onMemeClick} disabled={memeLoading} style={styles.memeButton}>
           {memeLoading ? 'Haetaan...' : '🍺 Maanantain motivaatio'}
         </button>
+
+        <div style={{ marginTop: '20px', textAlign: 'center', fontSize: '12px' }}>
+          <a href="/tietosuoja" style={{ color: '#666', textDecoration: 'underline' }}>Tietosuojaseloste (GDPR)</a>
+        </div>
       </div>
 
       {memeOpen && (
