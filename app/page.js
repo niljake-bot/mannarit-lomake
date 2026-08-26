@@ -101,6 +101,7 @@ export default function Home() {
     <div style={styles.wrapper}>
       <div style={styles.container}>
         <h1 style={styles.h1}>Kesä 2026 Mannarit (24.8.)</h1>
+        {/*
         <form onSubmit={onSubmit}>
           <label style={styles.label}>Nimi</label>
           <input type="text" name="name" required placeholder="Nimi" style={styles.input} />
@@ -114,6 +115,11 @@ export default function Home() {
           
           {status === 'error' && <p style={{color: 'red', marginTop: '10px', textAlign: 'center'}}>Virhe tallennuksessa. Yritä uudelleen.</p>}
         </form>
+        */}
+        <div style={{ padding: '20px 0', textAlign: 'center', fontSize: '18px', color: '#333' }}>
+          <p><strong>Mannarit on ohi tältä erää!</strong></p>
+          <p style={{ fontSize: '15px', color: '#555' }}>Lomake on toistaiseksi suljettu. Ilmoittelemme kun seuraava tapahtuma lähestyy.</p>
+        </div>
 
         <button type="button" onClick={onMemeClick} disabled={memeLoading} style={styles.memeButton}>
           {memeLoading ? 'Haetaan...' : '🍺 Maanantain motivaatio'}
